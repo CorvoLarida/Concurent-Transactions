@@ -7,7 +7,6 @@ import kz.am.springboot.concurrenttransactions.repository.TransactionRecordRepos
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -65,7 +64,6 @@ public class AccountTransactionManager implements Runnable {
         }
     }
 
-    @Transactional
     public boolean doTransaction(Account acFrom, Account acTo, int transactionNum) {
         int sum = ThreadLocalRandom.current().nextInt(1, 10000 + 1);
         AccountTransactionRecord accountTransactionRecord = new AccountTransactionRecord();
