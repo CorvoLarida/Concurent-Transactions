@@ -56,7 +56,6 @@ public class AccountTransactionManager implements Runnable {
         }
     }
 
-    @Transactional
     public boolean doTransaction(Account acFrom, Account acTo, int transactionNum) {
         int sum = ThreadLocalRandom.current().nextInt(1, 10000 + 1);
         LOGGER.info("{} Transaction started: transfer {} from {} to {}", transactionNum, sum, acFrom, acTo);
