@@ -1,8 +1,5 @@
 package kz.am.springboot.concurrenttransactions;
 
-import kz.am.springboot.concurrenttransactions.domain.Account;
-import kz.am.springboot.concurrenttransactions.repository.AccountRepository;
-import kz.am.springboot.concurrenttransactions.repository.TransactionRecordRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -25,17 +22,16 @@ public class ConcurrentTransactionsApplication {
     }
 
     @Bean
-    public CommandLineRunner run(AccountRepository accountRepository, TransactionRecordRepository transactionRepository) {
-        return (args -> runApp(accountRepository, transactionRepository));
+    public CommandLineRunner run() {
+        return (args -> runApp());
     }
 
-    private void runApp(AccountRepository accountRepository, TransactionRecordRepository transactionRepository) {
+    private void runApp() {
+        List<Account> allAccounts = new ArrayList<>();
         for (int i = 0; i < NUMBER_OF_ACCOUNTS; i++) {
-            accountRepository.save(new Account());
+            allAccounts.add(new Account());
         }
-        List<Account> allAccounts = accountRepository.findAll();
-        AccountTransactionManager atm = new AccountTransactionManager(allAccounts, accountRepository,
-                transactionRepository, NUMBER_OF_SUCCESSFUL_TRANSACTIONS);
+        AccountTransactionManager atm = new AccountTransactionManager(allAccounts, NUMBER_OF_SUCCESSFUL_TRANSACTIONS);
         LOGGER.info("Total amount before transfers: {}", atm.getTotalAmount());
         List<Thread> threadList = new ArrayList<>();
         for (int i = 0; i < NUMBER_OF_THREADS; i++) {
