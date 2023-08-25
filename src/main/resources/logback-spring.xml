@@ -1,0 +1,29 @@
+<configuration>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d %highlight(%-5level) --- [%15.15thread] %cyan(%logger{15}) : %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <timestamp key="fileTimestamp" datePattern="yyyy-MM-dd_HH-mm-ss"/>
+
+    <appender name="TRANSACTIONS_FILE" class="ch.qos.logback.core.FileAppender">
+        <file>logs/transactions-${fileTimestamp}.log</file>
+        <encoder>
+            <pattern>%d %-5level --- [%15.15thread] %logger{15} : %msg%n</pattern>
+        </encoder>
+        <append>false</append>
+    </appender>
+
+    <logger name="kz.am.springboot.concurrenttransactions.ConcurrentTransactionsApplication" level="INFO">
+        <appender-ref ref="TRANSACTIONS_FILE"/>
+    </logger>
+
+    <logger name="kz.am.springboot.concurrenttransactions.AccountTransactionManager" level="INFO">
+        <appender-ref ref="TRANSACTIONS_FILE"/>
+    </logger>
+
+    <root level="INFO">
+        <appender-ref ref="STDOUT"/>
+    </root>
+</configuration>
